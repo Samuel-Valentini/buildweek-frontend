@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { Alert, Button, Container, Spinner, Table } from "react-bootstrap"
-import { getFatture } from "../api/fattureApi"
+import { deleteFattura, getFatture } from "../api/fattureApi"
 
 const Fatture = () => {
   const [searchParams] = useSearchParams()
@@ -14,6 +14,7 @@ const Fatture = () => {
   const [totalePagine, setTotalePagine] = useState(0)
   const [loading, setLoading] = useState(true)
   const [errore, setErrore] = useState("")
+  const [eliminandoId, setEliminandoId] = useState(null)
 
   const caricaFatture = async () => {
     setLoading(true)
@@ -26,6 +27,7 @@ const Fatture = () => {
       setTotalePagine(data.totalPages || 0)
     } catch (error) {
       setErrore(error.message)
+      setFatture([])
     } finally {
       setLoading(false)
     }
@@ -38,6 +40,31 @@ const Fatture = () => {
   useEffect(() => {
     caricaFatture()
   }, [pagina, clienteId])
+
+  const eliminaFattura = async (fatturaId) => {
+    const conferma = window.confirm("Sei sicuro di voler cancellare questa fattura?")
+
+    if (!conferma) {
+      return
+    }
+
+    setErrore("")
+    setEliminandoId(fatturaId)
+
+    try {
+      await deleteFattura(fatturaId)
+
+      if (fatture.length === 1 && pagina > 0) {
+        setPagina(pagina - 1)
+      } else {
+        await caricaFatture()
+      }
+    } catch (error) {
+      setErrore(error.message)
+    } finally {
+      setEliminandoId(null)
+    }
+  }
 
   const vaiPaginaPrecedente = () => {
     if (pagina > 0) {
@@ -109,6 +136,7 @@ const Fatture = () => {
                 <th>Importo</th>
                 <th>Cliente</th>
                 <th>Stato</th>
+                <th>Azioni</th>
               </tr>
             </thead>
 
@@ -121,6 +149,18 @@ const Fatture = () => {
                   <td>{formattaImporto(fattura.importo)}</td>
                   <td>{fattura.cliente?.ragioneSociale || "-"}</td>
                   <td>{fattura.statoFattura?.denominazione || "-"}</td>
+                  <td className="text-center">
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      title="Cancella fattura"
+                      aria-label="Cancella fattura"
+                      onClick={() => eliminaFattura(fattura.fatturaId)}
+                      disabled={eliminandoId === fattura.fatturaId}
+                    >
+                      {eliminandoId === fattura.fatturaId ? <Spinner animation="border" size="sm" /> : "🗑️"}
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
