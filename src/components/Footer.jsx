@@ -1,38 +1,58 @@
+import { Link } from "react-router-dom"
 import { Container, Row, Col } from "react-bootstrap"
+import { FaFacebookF, FaInstagram, FaXTwitter, FaYoutube } from "react-icons/fa6"
 
-const Footer = () => {
+function Footer() {
   return (
-    <footer className="bg-primary text-white mt-auto py-4">
+    <footer className="footer-custom mt-auto">
       <Container>
-        <Row className="mb-3">
-          <Col xs={12} md={4} className="mb-3">
-            <h5 className="fw-bold">⚡ EpiEnergy</h5>
-            <p className="small">L'energia che ti serve per gestire tutto! </p>
+        <div className="footer-social mb-4">
+          <FaFacebookF className="footer-social-icon" />
+          <FaInstagram className="footer-social-icon" />
+          <FaXTwitter className="footer-social-icon" />
+          <FaYoutube className="footer-social-icon" />
+        </div>
+
+        <Row className="gy-3">
+          <Col xs={6} md={3}>
+            <p className="footer-link">Assistenza clienti</p>
+            <p className="footer-link">Area personale</p>
+            <p className="footer-link">Privacy</p>
+            <p className="footer-link">Contattaci</p>
           </Col>
 
-          <Col xs={12} md={4} className="mb-3">
-            <h6 className="fw-semibold">Link</h6>
-            <ul className="list-unstyled">
-              <li>Home</li>
-              <li>Clienti</li>
-              <li>Fatture</li>
-            </ul>
+          <Col xs={6} md={3}>
+            <h6 className="footer-title">Link</h6>
+
+            <Link className="footer-link footer-link-clickable" to="/">
+              Home
+            </Link>
+
+            <Link className="footer-link footer-link-clickable" to="/clienti">
+              Clienti
+            </Link>
+
+            <Link className="footer-link footer-link-clickable" to="/fatture">
+              Fatture
+            </Link>
           </Col>
 
-          <Col xs={12} md={4} className="mb-3">
-            <h6 className="fw-semibold">Contatti</h6>
-            <p className="small">
-              email@epienergy.it <br />
-              +39 123 456 789
-            </p>
+          <Col xs={6} md={3}>
+            <p className="footer-link">Centro assistenza</p>
+            <p className="footer-link">Lavora con noi</p>
+            <p className="footer-link">Preferenze</p>
+            <p className="footer-link">Sicurezza</p>
+          </Col>
+
+          <Col xs={6} md={3}>
+            <p className="footer-link">Note legali</p>
+            <p className="footer-link">Termini di uso</p>
+            <p className="footer-link">Informazioni aziendali</p>
+            <p className="footer-link">EpiEnergy Business</p>
           </Col>
         </Row>
 
-        <Row>
-          <Col className="text-center border-top pt-3">
-            <small>© 2026 EpiEnergy</small>
-          </Col>
-        </Row>
+        <p className="footer-copy mb-0">© 2026 EpiEnergy, Inc.</p>
       </Container>
     </footer>
   )

@@ -6,7 +6,7 @@ function ClienteCard({ cliente }) {
     <Card className="h-100 shadow-sm border-0">
       <Card.Body>
         <div className="d-flex justify-content-between align-items-start mb-2">
-          <Card.Title className="fw-bold text-primary mb-0">{cliente.ragioneSociale}</Card.Title>
+          <Card.Title className="fw-bold text-primary mb-0 cliente-card-title">{cliente.ragioneSociale}</Card.Title>
 
           <Badge bg="warning" text="dark">
             {cliente.tipoCliente}
