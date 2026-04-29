@@ -36,7 +36,6 @@ function App() {
             <main className="flex-grow-1">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/clienti" element={<h1>Clienti</h1>} />
                 {/*<Route path="/fatture" element={<h1>Fatture</h1>} />
               <Route path="/login" element={<h1>Login</h1>} /> */}
                 <Route path="/login" element={isUserLogged ? <Navigate to="/" replace /> : <Login setIsUserLogged={setIsUserLogged} />} />
@@ -54,7 +53,7 @@ function App() {
                   path="/clienti"
                   element={
                     <ProtectedRoute isUserLogged={isUserLogged}>
-                      <h1 className="text-center mt-5">Clienti</h1>
+                      <Clienti />
                     </ProtectedRoute>
                   }
                 />
