@@ -2,18 +2,33 @@ const API_URL = "/api"
 
 // Funzione per fare login
 export const login = async (email, password) => {
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  })
+  let response
+
+  try {
+    response = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+  } catch {
+    // Questo succede quando il backend è spento o non raggiungibile
+    throw new Error("Server non raggiungibile. Riprova più tardi.")
+  }
 
   const data = await response.json().catch(() => null)
 
   if (!response.ok) {
-    throw new Error(data?.message || "Email o password non corretti")
+    if (response.status === 401 || response.status === 403) {
+      throw new Error("Email o password non corretti")
+    }
+
+    if (response.status >= 500) {
+      throw new Error("Errore del server. Riprova più tardi.")
+    }
+
+    throw new Error(data?.message || "Errore durante il login")
   }
 
   return data.accessToken
