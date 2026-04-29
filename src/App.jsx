@@ -8,6 +8,7 @@ import Home from "./components/Home"
 import Login from "./components/Login"
 import Footer from "./components/Footer"
 import Clienti from "./components/Clienti"
+import Fatture from "./components/Fatture"
 
 import { persistedStore, store } from "./redux/store/store"
 import { isLoggedIn } from "./api/authApi"
@@ -35,7 +36,6 @@ function App() {
 
             <main className="flex-grow-1">
               <Routes>
-                <Route path="/" element={<Home />} />
                 {/*<Route path="/fatture" element={<h1>Fatture</h1>} />
               <Route path="/login" element={<h1>Login</h1>} /> */}
                 <Route path="/login" element={isUserLogged ? <Navigate to="/" replace /> : <Login setIsUserLogged={setIsUserLogged} />} />
@@ -62,7 +62,7 @@ function App() {
                   path="/fatture"
                   element={
                     <ProtectedRoute isUserLogged={isUserLogged}>
-                      <h1 className="text-center mt-5">Fatture</h1>
+                      <Fatture />
                     </ProtectedRoute>
                   }
                 />

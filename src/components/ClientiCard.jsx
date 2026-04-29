@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { Card, Button, Badge } from "react-bootstrap"
 
 function ClienteCard({ cliente }) {
@@ -44,7 +45,12 @@ function ClienteCard({ cliente }) {
 
         <Card.Text className="fw-semibold">Fatturato: € {cliente.fatturatoAnnuale}</Card.Text>
 
-        <Button variant="warning" className="fw-semibold">
+        <Button
+          as={Link}
+          to={`/fatture?clienteId=${cliente.clientiId}&cliente=${encodeURIComponent(cliente.ragioneSociale)}`}
+          variant="warning"
+          className="fw-semibold"
+        >
           Dettagli
         </Button>
       </Card.Body>

@@ -1,33 +1,40 @@
 import { useEffect, useState } from "react"
-
-import { Container, Row, Col, Spinner } from "react-bootstrap"
+import { Alert, Container, Row, Col, Spinner } from "react-bootstrap"
+import { getAuthHeader } from "../api/authApi"
 import ClienteCard from "./ClientiCard"
 
 function Clienti() {
   const [clienti, setClienti] = useState([])
   const [loading, setLoading] = useState(true)
-
-  console.log("COMPONENTE CLIENTI MONTATO")
+  const [errore, setErrore] = useState("")
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken")
-    console.log("TOKEN:", token)
+    const caricaClienti = async () => {
+      setLoading(true)
+      setErrore("")
 
-    fetch("http://localhost:3001/clienti", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("CLIENTI:", data)
-        setClienti(data.content ?? [])
+      try {
+        const response = await fetch("/api/clienti?page=0&size=30&sortBy=ragioneSociale", {
+          headers: {
+            Authorization: getAuthHeader(),
+          },
+        })
+
+        const data = await response.json().catch(() => null)
+
+        if (!response.ok) {
+          throw new Error(data?.message || "Errore durante il caricamento dei clienti")
+        }
+
+        setClienti(data.content || [])
+      } catch (error) {
+        setErrore(error.message)
+      } finally {
         setLoading(false)
-      })
-      .catch((err) => {
-        console.error(err)
-        setLoading(false)
-      })
+      }
+    }
+
+    caricaClienti()
   }, [])
 
   return (
@@ -38,14 +45,18 @@ function Clienti() {
         </Col>
       </Row>
 
+      {errore && <Alert variant="danger">{errore}</Alert>}
+
       {loading ? (
         <div className="text-center">
           <Spinner />
         </div>
+      ) : clienti.length === 0 ? (
+        <Alert variant="info">Nessun cliente trovato.</Alert>
       ) : (
         <Row className="g-4">
           {clienti.map((cliente) => (
-            <Col xs={12} md={6} lg={4} key={cliente.id}>
+            <Col xs={12} md={6} lg={4} key={cliente.clientiId}>
               <ClienteCard cliente={cliente} />
             </Col>
           ))}
