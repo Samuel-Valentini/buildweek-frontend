@@ -21,7 +21,13 @@ const Fatture = () => {
         setErrore("");
 
         try {
-            const data = await getFatture(pagina, 10, "data", clienteId);
+            const data = await getFatture(
+                pagina,
+                10,
+                "data",
+                clienteId,
+                "desc",
+            );
 
             setFatture(data.content || []);
             setTotalePagine(data.totalPages || 0);
