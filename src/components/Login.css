@@ -20,8 +20,6 @@
   z-index: 0;
 }
 
-/* SFONDO LEGGERO */
-
 .creative-bg {
   position: absolute;
   inset: 0;
@@ -75,8 +73,6 @@
   height: 560px;
   opacity: 1;
 }
-
-/* SCENA */
 
 .login-scene {
   position: relative;
