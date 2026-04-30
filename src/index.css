@@ -1,0 +1,176 @@
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+/* Layout generale del sito */
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.app-main {
+  flex: 1;
+  min-height: 0;
+  overflow: visible;
+}
+
+/* Solo nella pagina login blocchiamo lo scroll su desktop */
+body.login-no-scroll {
+  overflow: hidden;
+}
+
+body.login-no-scroll .app-shell {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+body.login-no-scroll .app-main {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Su mobile la login può scrollare */
+@media (max-width: 768px) {
+  body.login-no-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  body.login-no-scroll .app-shell {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  body.login-no-scroll .app-main {
+    flex: initial;
+    min-height: auto;
+    overflow: visible;
+  }
+}
+
+/* ========================= */
+/* NAVBAR GLOBALE */
+/* ========================= */
+
+.navbar {
+  background: linear-gradient(90deg, #20344a 0%, #27405b 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+}
+
+.navbar .navbar-brand {
+  color: #f4f7fb !important;
+  font-weight: 600;
+}
+
+.navbar .nav-link {
+  color: rgba(238, 243, 248, 0.78) !important;
+  transition: color 0.2s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: #f1d97b !important;
+}
+
+.navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+.navbar .navbar-toggler:focus {
+  box-shadow: 0 0 0 3px rgba(241, 217, 123, 0.18) !important;
+}
+
+/* Bottone Login */
+.navbar .btn-warning,
+.navbar a.btn-warning,
+.navbar button.btn-warning {
+  background: linear-gradient(135deg, #f1d97b, #ddb960) !important;
+  border: none !important;
+  color: #1b1a16 !important;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+
+/* Bottone Logout */
+.navbar .btn-danger,
+.navbar button.btn-danger,
+.navbar a.btn-danger {
+  background: linear-gradient(135deg, #d94b55, #b8323b) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+
+.navbar .btn-warning:hover,
+.navbar .btn-danger:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ========================= */
+/* FOOTER GLOBALE */
+/* ========================= */
+
+.footer-custom {
+  background: linear-gradient(180deg, #122033 0%, #0d1827 100%) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(235, 240, 246, 0.86) !important;
+}
+
+.footer-custom,
+.footer-custom p,
+.footer-custom li,
+.footer-custom a,
+.footer-custom h5,
+.footer-custom h6,
+.footer-custom span,
+.footer-custom small {
+  color: rgba(235, 240, 246, 0.86) !important;
+}
+
+.footer-custom a,
+.footer-link {
+  color: rgba(235, 240, 246, 0.78) !important;
+  text-decoration: none;
+}
+
+.footer-custom a:hover,
+.footer-link:hover {
+  color: #f0d98a !important;
+}
+
+.footer-title {
+  color: white !important;
+}
+
+.footer-social-icon {
+  color: white !important;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.footer-social-icon:hover {
+  color: #f0d98a !important;
+  transform: translateY(-2px);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .navbar {
+    background: linear-gradient(90deg, #1f3348 0%, #29415a 100%) !important;
+  }
+
+  .footer-custom {
+    background: linear-gradient(180deg, #101d2d 0%, #0b1622 100%) !important;
+  }
+}
