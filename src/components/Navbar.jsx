@@ -21,7 +21,7 @@ function MyNavbar({ isUserLogged, setIsUserLogged }) {
         <Navbar.Toggle aria-controls="navbar" />
 
         <Navbar.Collapse id="navbar">
-          <Nav className="ms-auto">
+          <Nav className="ms-auto navbar-links">
             {isUserLogged && (
               <>
                 <Nav.Link as={Link} to="/">
@@ -39,11 +39,11 @@ function MyNavbar({ isUserLogged, setIsUserLogged }) {
             )}
 
             {!isUserLogged ? (
-              <Button as={Link} to="/login" variant="warning" className="ms-lg-3 fw-semibold">
+              <Button as={Link} to="/login" variant="warning" size="sm" className="auth-button-navbar">
                 Login
               </Button>
             ) : (
-              <Button variant="danger" className="ms-lg-3 fw-semibold" onClick={handleLogout}>
+              <Button variant="danger" size="sm" className="auth-button-navbar" onClick={handleLogout}>
                 Logout
               </Button>
             )}
