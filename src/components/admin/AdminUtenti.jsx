@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Spinner, Alert, Pagination, Form } from "react-bootstrap";
+import { Table, Button, Spinner, Alert, Pagination, Form, Modal, InputGroup } from "react-bootstrap";
 import { apiCall } from "../../api/apiHelper";
+import { getUserFromStorage } from "../../api/userApi";
 
 const AdminUtenti = () => {
   const [pagina, setPagina] = useState(null);
@@ -8,9 +9,24 @@ const AdminUtenti = () => {
   const [errore, setErrore] = useState("");
   const [paginaCorrente, setPaginaCorrente] = useState(0);
 
-  // Stato per il ruolo da aggiungere/rimuovere (semplice text input per ora)
+  // Ruolo selezionato per ogni utente nel dropdown
   const [ruoliInput, setRuoliInput] = useState({});
 
+  // Lista ruoli disponibili caricati dal backend
+  const [ruoliDisponibili, setRuoliDisponibili] = useState([]);
+
+  // Modale password
+  const [passwordGenerata, setPasswordGenerata] = useState(null);
+  const [copiato, setCopiato] = useState(false);
+
+  // Calcola se l'utente loggato è SUPER_ADMIN
+  const utenteLoggato = getUserFromStorage();
+  const isSuperAdmin = utenteLoggato?.ruoli?.some((r) => r.denominazione === "SUPER_ADMIN");
+
+  // Filtra i ruoli: ADMIN normale non può assegnare ADMIN/SUPER_ADMIN
+  const ruoliVisibili = isSuperAdmin ? ruoliDisponibili : ruoliDisponibili.filter((r) => r.denominazione !== "ADMIN" && r.denominazione !== "SUPER_ADMIN");
+
+  // Carica utenti dal backend
   const caricaUtenti = async () => {
     setLoading(true);
     setErrore("");
@@ -24,9 +40,23 @@ const AdminUtenti = () => {
     }
   };
 
+  // Carica ruoli disponibili (una sola volta)
+  const caricaRuoli = async () => {
+    try {
+      const data = await apiCall("/ruoli?size=100");
+      setRuoliDisponibili(data.content);
+    } catch (e) {
+      console.error("Impossibile caricare i ruoli:", e.message);
+    }
+  };
+
   useEffect(() => {
     caricaUtenti();
   }, [paginaCorrente]);
+
+  useEffect(() => {
+    caricaRuoli();
+  }, []);
 
   // Cancella utente
   const cancellaUtente = async (utenteId) => {
@@ -42,8 +72,8 @@ const AdminUtenti = () => {
   // Aggiungi ruolo
   const aggiungiRuolo = async (utenteId) => {
     const ruolo = ruoliInput[utenteId];
-    if (!ruolo || !ruolo.trim()) {
-      alert("Inserisci un ruolo da aggiungere");
+    if (!ruolo) {
+      alert("Seleziona un ruolo da aggiungere");
       return;
     }
     try {
@@ -71,10 +101,19 @@ const AdminUtenti = () => {
     if (!window.confirm("Generare una nuova password temporanea per questo utente?")) return;
     try {
       const data = await apiCall(`/admin_api/${utenteId}/ruoli/resetpassword`, { method: "PATCH" });
-      alert(`Password temporanea generata:\n\n${data.temporaryPassword}\n\nCopiala e comunicala all'utente!`);
+      setPasswordGenerata(data.temporaryPassword);
+      setCopiato(false);
     } catch (e) {
       alert("Errore: " + e.message);
     }
+  };
+
+  // Copia password negli appunti
+  const copiaPassword = () => {
+    navigator.clipboard.writeText(passwordGenerata).then(() => {
+      setCopiato(true);
+      setTimeout(() => setCopiato(false), 2000);
+    });
   };
 
   return (
@@ -121,13 +160,18 @@ const AdminUtenti = () => {
                   </td>
                   <td>
                     <div className="d-flex gap-1">
-                      <Form.Control
-                        type="text"
+                      <Form.Select
                         size="sm"
-                        placeholder="es. ADMIN"
                         value={ruoliInput[utente.id] || ""}
                         onChange={(e) => setRuoliInput({ ...ruoliInput, [utente.id]: e.target.value })}
-                      />
+                      >
+                        <option value="">Seleziona...</option>
+                        {ruoliVisibili.map((r) => (
+                          <option key={r.id} value={r.denominazione}>
+                            {r.denominazione}
+                          </option>
+                        ))}
+                      </Form.Select>
                       <Button variant="success" size="sm" onClick={() => aggiungiRuolo(utente.id)}>
                         +
                       </Button>
@@ -161,6 +205,27 @@ const AdminUtenti = () => {
           )}
         </>
       )}
+
+      {/* Modale password generata */}
+      <Modal show={passwordGenerata !== null} onHide={() => setPasswordGenerata(null)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>🔑 Password temporanea</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Comunica questa password all'utente. Sarà visibile solo ora.</p>
+          <InputGroup>
+            <Form.Control type="text" readOnly value={passwordGenerata || ""} style={{ fontFamily: "monospace", fontWeight: "bold" }} />
+            <Button variant={copiato ? "success" : "primary"} onClick={copiaPassword}>
+              {copiato ? "✓ Copiata!" : "Copia"}
+            </Button>
+          </InputGroup>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setPasswordGenerata(null)}>
+            Chiudi
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

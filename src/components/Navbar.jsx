@@ -1,12 +1,29 @@
+import { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../api/authApi";
+import { fetchCurrentUser, saveUser, getUserFromStorage, removeUser, isAdmin } from "../api/userApi";
 
 function MyNavbar({ isUserLogged, setIsUserLogged }) {
   const navigate = useNavigate();
+  const [user, setUser] = useState(getUserFromStorage());
+
+  useEffect(() => {
+    // Se sono loggato ma non ho l'utente in localStorage, lo carico dal backend
+    if (isUserLogged && !user) {
+      fetchCurrentUser()
+        .then((data) => {
+          saveUser(data);
+          setUser(data);
+        })
+        .catch((err) => console.error("Impossibile recuperare l'utente:", err));
+    }
+  }, [isUserLogged, user]);
 
   const handleLogout = () => {
     logout();
+    removeUser();
+    setUser(null);
     setIsUserLogged(false);
     navigate("/login");
   };
@@ -35,9 +52,12 @@ function MyNavbar({ isUserLogged, setIsUserLogged }) {
                 <Nav.Link as={Link} to="/fatture">
                   Fatture
                 </Nav.Link>
-                <Nav.Link as={Link} to="/admin">
-                  Dipendenti
-                </Nav.Link>
+
+                {isAdmin() && (
+                  <Nav.Link as={Link} to="/admin">
+                    Dipendenti
+                  </Nav.Link>
+                )}
               </>
             )}
 
