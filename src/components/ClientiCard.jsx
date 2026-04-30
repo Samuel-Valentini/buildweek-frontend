@@ -1,61 +1,85 @@
-import { Link } from "react-router-dom"
-import { Card, Button, Badge } from "react-bootstrap"
+import { Link } from "react-router-dom";
+import { Card, Button, Badge } from "react-bootstrap";
 
 function ClienteCard({ cliente }) {
-  return (
-    <Card className="h-100 shadow-sm border-0">
-      <Card.Body>
-        <div className="d-flex justify-content-between align-items-start mb-2">
-          <Card.Title className="fw-bold text-primary mb-0 cliente-card-title">{cliente.ragioneSociale}</Card.Title>
+    const formattaImporto = (importo) => {
+        if (importo === null || importo === undefined || importo === "") {
+            return "-";
+        }
 
-          <Badge bg="warning" text="dark">
-            {cliente.tipoCliente}
-          </Badge>
-        </div>
+        const numero = Number(importo);
 
-        <Card.Text className="mb-1">
-          <strong>P. IVA:</strong> {cliente.partitaIva}
-        </Card.Text>
+        if (Number.isNaN(numero)) {
+            return "-";
+        }
 
-        <Card.Text className="mb-1">
-          <strong>Email:</strong> {cliente.email}
-        </Card.Text>
+        return (
+            "€ " +
+            new Intl.NumberFormat("it-IT", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }).format(numero)
+        );
+    };
 
-        <Card.Text className="mb-1">
-          <strong>PEC:</strong> {cliente.pec}
-        </Card.Text>
+    return (
+        <Card className="h-100 shadow-sm border-0">
+            <Card.Body>
+                <div className="d-flex justify-content-between align-items-start mb-2">
+                    <Card.Title className="fw-bold text-primary mb-0 cliente-card-title">
+                        {cliente.ragioneSociale}
+                    </Card.Title>
 
-        <Card.Text className="mb-1">
-          <strong>Telefono:</strong> {cliente.telefono}
-        </Card.Text>
+                    <Badge bg="warning" text="dark">
+                        {cliente.tipoCliente}
+                    </Badge>
+                </div>
 
-        <hr />
+                <Card.Text className="mb-1">
+                    <strong>P. IVA:</strong> {cliente.partitaIva}
+                </Card.Text>
 
-        <Card.Text className="mb-1">
-          <strong>Contatto:</strong> {cliente.nomeContatto} {cliente.cognomeContatto}
-        </Card.Text>
+                <Card.Text className="mb-1">
+                    <strong>Email:</strong> {cliente.email}
+                </Card.Text>
 
-        <Card.Text className="mb-1">
-          <strong>Email contatto:</strong> {cliente.emailContatto}
-        </Card.Text>
+                <Card.Text className="mb-1">
+                    <strong>PEC:</strong> {cliente.pec}
+                </Card.Text>
 
-        <Card.Text className="mb-3">
-          <strong>Tel. contatto:</strong> {cliente.telefonoContatto}
-        </Card.Text>
+                <Card.Text className="mb-1">
+                    <strong>Telefono:</strong> {cliente.telefono}
+                </Card.Text>
 
-        <Card.Text className="fw-semibold">Fatturato: € {cliente.fatturatoAnnuale}</Card.Text>
+                <hr />
 
-        <Button
-          as={Link}
-          to={`/fatture?clienteId=${cliente.clientiId}&cliente=${encodeURIComponent(cliente.ragioneSociale)}`}
-          variant="warning"
-          className="fw-semibold"
-        >
-          Dettagli
-        </Button>
-      </Card.Body>
-    </Card>
-  )
+                <Card.Text className="mb-1">
+                    <strong>Contatto:</strong> {cliente.nomeContatto}{" "}
+                    {cliente.cognomeContatto}
+                </Card.Text>
+
+                <Card.Text className="mb-1">
+                    <strong>Email contatto:</strong> {cliente.emailContatto}
+                </Card.Text>
+
+                <Card.Text className="mb-3">
+                    <strong>Tel. contatto:</strong> {cliente.telefonoContatto}
+                </Card.Text>
+
+                <Card.Text className="fw-semibold">
+                    Fatturato: {formattaImporto(cliente.fatturatoAnnuale)}
+                </Card.Text>
+
+                <Button
+                    as={Link}
+                    to={`/fatture?clienteId=${cliente.clientiId}&cliente=${encodeURIComponent(cliente.ragioneSociale)}`}
+                    variant="warning"
+                    className="fw-semibold">
+                    Dettagli
+                </Button>
+            </Card.Body>
+        </Card>
+    );
 }
 
-export default ClienteCard
+export default ClienteCard;
