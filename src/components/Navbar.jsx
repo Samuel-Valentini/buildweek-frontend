@@ -12,7 +12,7 @@ function MyNavbar({ isUserLogged, setIsUserLogged }) {
   }
 
   return (
-    <Navbar expand="lg" bg="primary" variant="dark" className="shadow-sm">
+    <Navbar expand="lg" variant="dark" className="shadow-sm custom-navbar">
       <Container>
         <Navbar.Brand as={Link} to={isUserLogged ? "/" : "/login"}>
           ⚡ EpiEnergy
@@ -39,11 +39,11 @@ function MyNavbar({ isUserLogged, setIsUserLogged }) {
             )}
 
             {!isUserLogged ? (
-              <Button as={Link} to="/login" variant="warning" size="sm" className="auth-button-navbar">
+              <Button as={Link} to="/login" size="sm" variant="primary">
                 Login
               </Button>
             ) : (
-              <Button variant="danger" size="sm" className="auth-button-navbar" onClick={handleLogout}>
+              <Button size="sm" variant="primary" onClick={handleLogout}>
                 Logout
               </Button>
             )}

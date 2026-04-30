@@ -1,3 +1,12 @@
+body {
+  background-color: #d1dad8;
+}
+
+#root {
+  background-color: #d4ddda;
+  min-height: 100vh;
+}
+
 .cliente-card-title {
   min-height: 48px;
   line-height: 24px;
@@ -28,7 +37,7 @@
 
 /* Footer */
 .footer-custom {
-  background-color: #111827;
+  background-color: #0a1a22;
   color: #9ca3af;
   padding: 34px 0 24px;
   font-size: 14px;
@@ -59,6 +68,7 @@
   color: #9ca3af;
   font-size: 14px;
   cursor: default;
+  text-decoration: none;
 }
 
 .footer-link-clickable {
@@ -67,14 +77,37 @@
 }
 
 .footer-link-clickable:hover {
-  color: white;
-  text-decoration: underline;
+  color: #f4d35e;
 }
 
 .footer-copy {
   color: #9ca3af;
   font-size: 12px;
   margin-top: 22px;
+}
+
+/* Navbar ecc */
+
+.custom-navbar {
+  background-color: #0a1a22;
+  padding-bottom: 0.8rem;
+}
+
+.navbar .nav-link:hover {
+  color: #f4d35e !important;
+}
+
+.auth-button-navbar {
+  margin-left: 12px;
+}
+
+.cliente-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.cliente-card-title {
+  color: #0a1a22 !important;
 }
 
 /* Tablet e mobile */

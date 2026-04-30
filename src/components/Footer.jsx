@@ -13,46 +13,49 @@ function Footer() {
           <FaYoutube className="footer-social-icon" />
         </div>
 
-        <Row className="gy-3">
-          <Col xs={6} md={3}>
-            <p className="footer-link">Assistenza clienti</p>
-            <p className="footer-link">Area personale</p>
-            <p className="footer-link">Privacy</p>
-            <p className="footer-link">Contattaci</p>
-          </Col>
-
-          <Col xs={6} md={3}>
-            <h6 className="footer-title">Link</h6>
-
-            <Link className="footer-link footer-link-clickable" to="/">
+        <Row className="gy-4">
+          <Col xs={12} md={4}>
+            <h6 className="footer-title">EpiEnergy</h6>
+            <Link to="/" className="footer-link footer-link-clickable">
               Home
             </Link>
-
-            <Link className="footer-link footer-link-clickable" to="/clienti">
+            <Link to="/clienti" className="footer-link footer-link-clickable">
               Clienti
             </Link>
-
-            <Link className="footer-link footer-link-clickable" to="/fatture">
+            <Link to="/fatture" className="footer-link footer-link-clickable">
               Fatture
             </Link>
           </Col>
 
-          <Col xs={6} md={3}>
-            <p className="footer-link">Centro assistenza</p>
-            <p className="footer-link">Lavora con noi</p>
-            <p className="footer-link">Preferenze</p>
-            <p className="footer-link">Sicurezza</p>
+          <Col xs={12} md={4}>
+            <h6 className="footer-title">Supporto</h6>
+            <Link to="#" className="footer-link footer-link-clickable">
+              Assistenza clienti
+            </Link>
+            <Link to="#" className="footer-link footer-link-clickable">
+              Contattaci
+            </Link>
+            <Link to="#" className="footer-link footer-link-clickable">
+              Centro assistenza
+            </Link>
           </Col>
 
-          <Col xs={6} md={3}>
-            <p className="footer-link">Note legali</p>
-            <p className="footer-link">Termini di uso</p>
-            <p className="footer-link">Informazioni aziendali</p>
-            <p className="footer-link">EpiEnergy Business</p>
+          <Col xs={12} md={4}>
+            <h6 className="footer-title">Informazioni</h6>
+            <Link to="#" className="footer-link footer-link-clickable">
+              Privacy
+            </Link>
+            <Link to="#" className="footer-link footer-link-clickable">
+              Termini di uso
+            </Link>
+            <Link to="#" className="footer-link footer-link-clickable">
+              Informazioni aziendali
+            </Link>
           </Col>
         </Row>
-
-        <p className="footer-copy mb-0">© 2026 EpiEnergy, Inc.</p>
+        <Col xs={12} md={4}>
+          <p className="footer-copy mb-0">© 2026 EpiEnergy, Inc.</p>
+        </Col>
       </Container>
     </footer>
   )

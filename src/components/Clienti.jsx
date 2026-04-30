@@ -56,11 +56,11 @@ function Clienti() {
     <Container className="py-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h1 className="mb-1 text-primary fw-bold">Clienti</h1>
-          <p className="text-muted mb-0">Lista di tutti i clienti</p>
+          <h1 className="py-1 mb-0 cliente-card-title fw-bold">Clienti</h1>
+          <p className="cliente-card-title mb-0">Lista di tutti i clienti</p>
         </div>
 
-        <Button variant="primary" onClick={caricaClienti}>
+        <Button className="yellow-accent" onClick={caricaClienti}>
           Aggiorna
         </Button>
       </div>
