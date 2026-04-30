@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Footer from "./components/Footer";
 import Clienti from "./components/Clienti";
 import Fatture from "./components/Fatture";
+import Admin from "./components/Admin";
 
 import { persistedStore, store } from "./redux/store/store";
 import { isLoggedIn } from "./api/authApi";

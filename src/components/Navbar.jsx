@@ -1,15 +1,15 @@
-import { Navbar, Nav, Container, Button } from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom"
-import { logout } from "../api/authApi"
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../api/authApi";
 
 function MyNavbar({ isUserLogged, setIsUserLogged }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout()
-    setIsUserLogged(false)
-    navigate("/login")
-  }
+    logout();
+    setIsUserLogged(false);
+    navigate("/login");
+  };
 
   return (
     <Navbar expand="lg" bg="primary" variant="dark" className="shadow-sm">
@@ -35,6 +35,9 @@ function MyNavbar({ isUserLogged, setIsUserLogged }) {
                 <Nav.Link as={Link} to="/fatture">
                   Fatture
                 </Nav.Link>
+                <Nav.Link as={Link} to="/admin">
+                  Dipendenti
+                </Nav.Link>
               </>
             )}
 
@@ -51,7 +54,7 @@ function MyNavbar({ isUserLogged, setIsUserLogged }) {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
+  );
 }
 
-export default MyNavbar
+export default MyNavbar;
