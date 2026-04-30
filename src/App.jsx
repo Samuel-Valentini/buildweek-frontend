@@ -1,29 +1,30 @@
-import { useState } from "react"
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
-import { Provider } from "react-redux"
-import { PersistGate } from "redux-persist/integration/react"
+import { useState } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
-import Navbar from "./components/Navbar"
-import Home from "./components/Home"
-import Login from "./components/Login"
-import Footer from "./components/Footer"
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Footer from "./components/Footer";
+import Admin from "./components/Admin";
 
-import { persistedStore, store } from "./redux/store/store"
-import { isLoggedIn } from "./api/authApi"
+import { persistedStore, store } from "./redux/store/store";
+import { isLoggedIn } from "./api/authApi";
 
-import "./App.css"
+import "./App.css";
 
 // Protegge le pagine private
 function ProtectedRoute({ isUserLogged, children }) {
   if (!isUserLogged) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   }
 
-  return children
+  return children;
 }
 
 function App() {
-  const [isUserLogged, setIsUserLogged] = useState(isLoggedIn())
+  const [isUserLogged, setIsUserLogged] = useState(isLoggedIn());
 
   return (
     <Provider store={store}>
@@ -63,6 +64,15 @@ function App() {
                   }
                 />
 
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute isUserLogged={isUserLogged}>
+                      <Admin />
+                    </ProtectedRoute>
+                  }
+                />
+
                 <Route path="*" element={<Navigate to="/login" replace />} />
               </Routes>
             </main>
@@ -72,7 +82,7 @@ function App() {
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;
